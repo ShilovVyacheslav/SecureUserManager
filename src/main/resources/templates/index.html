@@ -2,44 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Greeting Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .container {
-            margin-top: 100px;
-        }
-        .greeting {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>User Table</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<div class="container">
-    <h1 class="greeting" th:text="${message}"></h1>
-    <button class="button" onclick="sayHello()">Say Hello</button>
-</div>
+    <p id="total_pages" style="display: none;" th:text="${totalPages}"></p>
 
-<script>
-    function sayHello() {
-        alert('Hello, there!');
-    }
-</script>
+    <div class="content">
+        <form class="request_handler"  th:action="@{/user-home}" method="GET">
+            <input class="firstname_input" placeholder="firstname" type="text" name="first-name" th:value="${firstName}">
+            <input class="lastname_input" placeholder="lastname" type="text" name="last-name" th:value="${lastName}">
+            <input class="email_input" placeholder="email" type="text" name="email" th:value="${email}">
+            <input id="page_input" type="hidden" name="page" th:value="${page}">
+            <input id="size_input" type="hidden" name="size" th:value="${size}">
+            <button class="sender">Отправить</button>
+        </form>
+        <table class="users">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.password}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="slider">
+            <button class="slide_btn" id="slide_back">Предыдущая</button>
+            <p id="page_number" th:text="${page}"></p>
+            <button class="slide_btn" id="slide_next">Следующая</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="/scripts/index.js"></script>
 </body>
 </html>

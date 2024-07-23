@@ -1,3 +1,102 @@
 body {
-    background: #2C3E50;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    display: block;
+    justify-content: center;
+    width: 80%;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.content .request_handler {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.content .request_handler input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 0 16px;
+}
+
+.content .request_handler .sender {
+    padding: 10px 20px;
+    background-color: #009879;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 16px;
+}
+
+.users {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    table-layout: fixed;
+}
+
+.users th, .users td {
+    padding: 12px 15px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.users thead th {
+    background-color: #009879;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.users tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+.users tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.users tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.users th:first-child, .users td:first-child {
+    width: 25%;
+}
+
+.content .slider {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content .slider button {
+    padding: 10px;
+    background-color: #009879;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 16px 16px;
+    cursor: pointer;
+}
+
+.content .slider p {
+    font-size: 24px;
+    font-weight: 1000;
 }
