@@ -1,5 +1,7 @@
 var totalPages = parseInt(document.getElementById("total_pages").textContent);
 let pageInputElem = document.getElementById("page_input");
+let pageNumberElem = document.getElementById("page_number");
+pageNumberElem.textContent = (Number(pageNumberElem.textContent) - (-1)).toString();
 
 document.querySelector('.sender').addEventListener('click', function() {
     pageInputElem.value = 0;

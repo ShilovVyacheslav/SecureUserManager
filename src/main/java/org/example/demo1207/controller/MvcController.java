@@ -1,12 +1,19 @@
 package org.example.demo1207.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
+
+import org.example.demo1207.context.UserContext;
+import org.example.demo1207.model.User;
 import org.example.demo1207.service.UserService;
+
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,11 +28,24 @@ public class MvcController {
     String getIndexPage(@RequestParam(required=false, defaultValue="", name="first-name") String firstName,
                         @RequestParam(required=false, defaultValue="", name="last-name") String lastName,
                         @RequestParam(required=false, defaultValue="") String email,
-                        Pageable pageable, Model model) {
+                        Pageable pageable, Model model, HttpServletRequest request) {
 
-        firstName = StringUtils.trimToNull(firstName);
-        lastName = StringUtils.trimToNull(lastName);
-        email = StringUtils.trimToNull(email);
+        Integer errorStatus = (Integer) request.getAttribute("errorStatus");
+        String errorMessage = (String) request.getAttribute("errorMessage");
+
+        if (errorStatus != null && errorStatus != 500) {
+            model.addAttribute("status", errorStatus);
+            model.addAttribute("error", errorMessage);
+
+            return "error";
+        }
+
+        User user = UserContext.getCurrentUser();
+        if (user != null) {
+            firstName = user.getFirstName();
+            lastName = user.getLastName();
+            email = user.getEmail();
+        }
 
         var users = userService.getUsersPage(firstName, lastName, email, pageable);
 

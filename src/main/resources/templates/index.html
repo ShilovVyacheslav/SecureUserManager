@@ -17,6 +17,9 @@
             <input id="size_input" type="hidden" name="size" th:value="${size}">
             <button class="sender">Отправить</button>
         </form>
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <p id="interceptor_message" th:text="${interceptorMessage}"></p>
+        </div>
         <table class="users">
             <thead>
                 <tr>

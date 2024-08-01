@@ -41,6 +41,12 @@ body {
     margin: 0 16px;
 }
 
+#interceptor_message {
+    color: red;
+    font-size: 24px;
+    font-weight: 800;
+}
+
 .users {
     width: 100%;
     border-collapse: separate;

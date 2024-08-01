@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: upchuck_user
+    url: jdbc:postgresql://localhost:5432/upchuckdb
+    password: upchuck
+  jpa:
+    open-in-view: 'false'
+    hibernate:
+      ddl-auto: update
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: crm

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${status}"></title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8d7da;
+            color: #721c24;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .error_container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="error_container">
+        <h1 th:text="${status}"></h1>
+        <p th:text="${error}"></p>
+    </div>
+</body>
+</html>
