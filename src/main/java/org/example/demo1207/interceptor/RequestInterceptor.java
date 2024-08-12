@@ -52,8 +52,8 @@ public class RequestInterceptor implements HandlerInterceptor {
             System.out.println("Method Type: " + request.getMethod());
             System.out.println("Request URL: " + request.getRequestURI());
 
-            user.setFirstName(StringUtils.trimToNull(request.getParameter("first-name")));
-            user.setLastName(StringUtils.trimToNull(request.getParameter("last-name")));
+            user.setFirstname(StringUtils.trimToNull(request.getParameter("first-name")));
+            user.setLastname(StringUtils.trimToNull(request.getParameter("last-name")));
             user.setEmail(StringUtils.trimToNull(request.getParameter("email")));
             UserContext.removeCurrentUser();
             UserContext.setCurrentUser(user);
@@ -74,11 +74,10 @@ public class RequestInterceptor implements HandlerInterceptor {
         try {
             System.out.println("2 - postHandle() : After the Controller serves the request (before returning back response to the client)");
             Map<String, Object> model = modelAndView.getModel();
-            if (model.get("totalPages") != null && (int)(model.get("totalPages")) == 0) {
+            if (model.get("totalPages") != null && (int) (model.get("totalPages")) == 0) {
                 modelAndView.addObject("interceptorMessage", "No data available for your request");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -92,8 +91,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         try {
             System.out.println("3 - afterCompletion() : After the request and Response is completed");
             System.out.println("-------------------------------------------------------------------");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

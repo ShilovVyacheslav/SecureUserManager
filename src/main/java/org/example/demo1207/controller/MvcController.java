@@ -24,10 +24,11 @@ public class MvcController {
 
     private final UserService userService;
 
+    
     @GetMapping("user-home")
-    String getIndexPage(@RequestParam(required=false, defaultValue="", name="first-name") String firstName,
-                        @RequestParam(required=false, defaultValue="", name="last-name") String lastName,
-                        @RequestParam(required=false, defaultValue="") String email,
+    String getIndexPage(@RequestParam(required = false, defaultValue = "", name = "first-name") String firstName,
+                        @RequestParam(required = false, defaultValue = "", name = "last-name") String lastName,
+                        @RequestParam(required = false, defaultValue = "") String email,
                         Pageable pageable, Model model, HttpServletRequest request) {
 
         Integer errorStatus = (Integer) request.getAttribute("errorStatus");
@@ -42,8 +43,8 @@ public class MvcController {
 
         User user = UserContext.getCurrentUser();
         if (user != null) {
-            firstName = user.getFirstName();
-            lastName = user.getLastName();
+            firstName = user.getFirstname();
+            lastName = user.getLastname();
             email = user.getEmail();
         }
 

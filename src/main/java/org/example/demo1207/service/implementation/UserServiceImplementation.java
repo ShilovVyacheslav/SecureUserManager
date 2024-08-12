@@ -30,6 +30,8 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public Optional<User> createUser(User user) {
+        Optional<User> userData = userRepository.findByEmail(user.getEmail());
+        if (userData.isPresent()) return Optional.empty();
         return Optional.of(userRepository.save(user));
     }
 
@@ -46,9 +48,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public Optional<User> updateUserById(String id, User newUser) throws IllegalAccessException {
         Optional<User> oldUserData = userRepository.findById(id);
-        if (oldUserData.isEmpty()) {
-            return Optional.empty();
-        }
+        if (oldUserData.isEmpty()) return Optional.empty();
 
         User updatedUser = oldUserData.get();
 
@@ -57,6 +57,12 @@ public class UserServiceImplementation implements UserService {
             field.setAccessible(true);
             Object newValue = field.get(newUser);
             if (newValue != null && !newValue.toString().isEmpty() && !newValue.toString().isBlank()) {
+                /*
+                if (field.getName().equals("roles")) {
+                    updatedUser.modifyRole(newValue.toString());
+                    continue;
+                }
+                */
                 field.set(updatedUser, newValue);
             }
         }
@@ -79,8 +85,18 @@ public class UserServiceImplementation implements UserService {
         firstName = StringUtils.trimToNull(firstName);
         lastName = StringUtils.trimToNull(lastName);
         email = StringUtils.trimToNull(email);
-        var userPage = userRepository.findAll(getSeachingSpecification(
-                User.builder().firstName(firstName).lastName(lastName).email(email).password(null).build()), pageable);
+        var userPage = userRepository.findAll(
+                getSeachingSpecification(
+                        User.builder()
+                                .firstname(firstName)
+                                .lastname(lastName)
+                                .email(email)
+                                .password(null)
+                                .roles(null)
+                                .build()
+                ),
+                pageable
+        );
 
         res.put("content", userPage.getContent());
         res.put("totalPages", userPage.getTotalPages());

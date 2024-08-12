@@ -16,7 +16,7 @@ public interface UserService {
 
     Optional<User> readUserById(String id);
 
-    Optional<User> updateUserById(String id, User newUserData) throws IllegalAccessException;
+    Optional<User> updateUserById(String id, User newUser) throws IllegalAccessException;
 
     boolean deleteUserById(String id);
 
