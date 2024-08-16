@@ -1,5 +1,6 @@
 package org.example.demo1207.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.demo1207.dto.UserDto;
 import org.example.demo1207.model.User;
 import org.springframework.data.domain.Pageable;
@@ -10,17 +11,24 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> createUser(User user);
+    Optional<User> createUser(User user) throws IllegalAccessException;
 
-    List<UserDto> readAllUsers();
+    List<UserDto> readAllUsers(HttpServletRequest request);
 
-    Optional<User> readUserById(String id);
+    Optional<UserDto> readUserById(String id, HttpServletRequest request);
 
-    Optional<User> updateUserById(String id, User newUser) throws IllegalAccessException;
+    Optional<UserDto> readUserByEmail(String email, HttpServletRequest request);
 
-    boolean deleteUserById(String id);
+    Optional<UserDto> updateUserById(String id, User newUser) throws IllegalAccessException;
 
-    Map<String, Object> getUsersPage(String firstName, String lastName, String email, Pageable pageable);
+    Optional<UserDto> updateUserByEmail(String email, User newUser) throws IllegalAccessException;
 
-    boolean saveLog(ChangeService changeService, User oldUser, User newUser) throws IllegalAccessException;
+    boolean deleteUserById(String id) throws IllegalAccessException;
+
+    Map<String, Object> getUsersPage(String firstName, String lastName, String email,
+                                     Pageable pageable, HttpServletRequest request);
+
+    void saveView(HttpServletRequest request);
+
+    void saveChange(User oldUser, User newUser) throws IllegalAccessException;
 }

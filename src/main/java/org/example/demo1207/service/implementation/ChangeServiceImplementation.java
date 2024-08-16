@@ -18,23 +18,24 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ChangeServiceImplementation implements ChangeService {
-
     private final ChangeRepository changeRepository;
     private final UserRepository userRepository;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Override
-    public Optional<Change> createChange(Change change) {
-        return Optional.of(changeRepository.save(change));
+    public Optional<ChangeDto> createChange(Change change) {
+        return Optional.of(changeRepository.save(change)).map(this::mapChangeToDto);
     }
 
     @Override
     public ChangeDto mapChangeToDto(Change change) {
         ChangeDto changeDto = new ChangeDto();
-        User user = userRepository.findById(change.getUserId()).orElse(null);
-        changeDto.setId(change.getId().toString());
-        if (user != null) {
-            changeDto.setUser(user.mapUserToDto());
+        if (change.getUserId() != null) {
+            User user = userRepository.findById(change.getUserId()).orElse(null);
+            changeDto.setId(change.getId().toString());
+            if (user != null) {
+                changeDto.setUser(user.mapUserToDto());
+            }
         }
         changeDto.setFieldsChanged(change.getFieldsChanged());
         changeDto.setOldValues(change.getOldValues());
@@ -51,15 +52,8 @@ public class ChangeServiceImplementation implements ChangeService {
     }
 
     @Override
-    public Optional<Change> readChangeById(String id) {
-        return changeRepository.findById(new ObjectId(id));
-    }
-
-    @Override
-    public boolean deleteChangeById(String id) {
-        if (!changeRepository.existsById(new ObjectId(id))) return false;
-        changeRepository.deleteById(new ObjectId(id));
-        return true;
+    public Optional<ChangeDto> readChangeById(String id) {
+        return changeRepository.findById(new ObjectId(id)).map(this::mapChangeToDto);
     }
 
 }

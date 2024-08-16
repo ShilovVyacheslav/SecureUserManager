@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.demo1207.model.Role;
 import org.example.demo1207.model.User;
 
-import org.example.demo1207.repository.UserRepository;
 import org.example.demo1207.request.AuthenticationRequest;
 import org.example.demo1207.request.RegisterRequest;
 import org.example.demo1207.response.AuthenticationResponse;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -41,10 +41,9 @@ public class AuthController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    private final UserRepository userRepository;
-
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest request) throws IllegalAccessException {
         if (!request.allFieldsAreFilled()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(
@@ -60,8 +59,8 @@ public class AuthController {
                         .lastname(request.getLastname())
                         .email(request.getEmail())
                         .password(passwordEncoder.encode(request.getPassword()))
+                        .roles(Set.of(Role.ROLE_USER))
                         .build()
-                        .modifyRole("+USER")
         );
 
         if (userData.isEmpty()) {

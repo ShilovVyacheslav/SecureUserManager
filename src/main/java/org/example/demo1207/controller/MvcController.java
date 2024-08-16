@@ -24,7 +24,7 @@ public class MvcController {
 
     private final UserService userService;
 
-    
+
     @GetMapping("user-home")
     String getIndexPage(@RequestParam(required = false, defaultValue = "", name = "first-name") String firstName,
                         @RequestParam(required = false, defaultValue = "", name = "last-name") String lastName,
@@ -48,7 +48,7 @@ public class MvcController {
             email = user.getEmail();
         }
 
-        var users = userService.getUsersPage(firstName, lastName, email, pageable);
+        var users = userService.getUsersPage(firstName, lastName, email, pageable, request);
 
         model.addAttribute("users", users.get("content"));
         model.addAttribute("firstName", firstName);

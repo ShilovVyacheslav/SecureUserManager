@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails, Cloneable {
     @Id
     @UuidGenerator
     private String id;
@@ -46,31 +46,6 @@ public class User implements UserDetails {
         return userDto;
     }
 
-    public User modifyRole(String roleModification) {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-        roleModification = roleModification.trim().toUpperCase();
-        boolean isAddition = roleModification.startsWith("+");
-        boolean isRemoval = roleModification.startsWith("-");
-        String roleName = roleModification.substring(1).trim();
-        if (!roleName.startsWith("ROLE_")) {
-            roleName = "ROLE_" + roleName;
-        }
-        Role role;
-        try {
-            role = Role.valueOf(roleName);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid role: " + roleName);
-        }
-        if (isAddition) {
-            this.roles.add(role);
-        } else if (isRemoval) {
-            this.roles.remove(role);
-        }
-        return this;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList());
@@ -79,5 +54,14 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public User clone() {
+        try {
+            return (User) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
